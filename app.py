@@ -1,7 +1,8 @@
 from displacy_service.server import APP, get_model
+import os
 
 # Pre-load English model only, to save memory
-get_model('en')
+get_model(os.environ['SPACY_NER_MODEL'])
 # get_model('de')
 
 

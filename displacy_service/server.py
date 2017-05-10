@@ -85,7 +85,7 @@ class SchemaResource(object):
     """
     def on_get(self, req, resp, model_name):
         try:
-            model = get_model(model_name)
+            model = get_model(os.environ['SPACY_NER_MODEL'])
             output = {
                 'dep_types': get_dep_types(model),
                 'ent_types': get_ent_types(model),
@@ -117,7 +117,7 @@ class DepResource(object):
         collapse_phrases = json_data.get('collapse_phrases', True)
 
         try:
-            model = get_model(model_name)
+            model = get_model(os.environ['SPACY_NER_MODEL'])
             parse = Parse(model, text, collapse_punctuation, collapse_phrases)
             resp.body = json.dumps(parse.to_json(), sort_keys=True, indent=2)
             resp.content_type = 'text/string'
@@ -138,7 +138,7 @@ class EntResource(object):
         text = json_data.get('text')
         model_name = json_data.get('model', 'en')
         try:
-            model = get_model(model_name)
+            model = get_model(os.environ['SPACY_NER_MODEL'])
             entities = Entities(model, text)
             resp.body = json.dumps(entities.to_json(), sort_keys=True,
                                    indent=2)
